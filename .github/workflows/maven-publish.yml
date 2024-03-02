@@ -1,0 +1,19 @@
+name: Publish package to GitHub Packages
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Publish package
+        run: mvn --batch-mode -f Syne-Animations/pom.xml deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.SYNE_ANIMATIONS_TOKEN }}
